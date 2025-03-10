@@ -1,43 +1,11 @@
 use actix_web::{web, HttpResponse, Responder};
-// use sea_orm::{prelude::DateTime, ActiveModelTrait, Set};
-use sea_orm::{prelude::DateTime, ActiveModelTrait, Set};
-use serde::Deserialize;
-use utoipa::{schema, ToSchema};
+use sea_orm::{ActiveModelTrait, Set};
 
-use crate::entity::rules::{ActiveModel, Model};
+use crate::{
+    entity::rules::{ActiveModel, Model},
+    models::rules::CreateRule,
+};
 
-#[derive(Debug, Deserialize, ToSchema)]
-#[schema(example  = json!({
-    "rule_id": 0,
-    "status": 1,
-    "create_time": "2023-09-09T15:53:00",
-    "update_time": "2023-09-09T15:53:00",
-    "name": "后台面板",
-    "desc": "index",
-    "front_path": null,
-    "condition": null,
-    "menu": 1,
-    "order": 1,
-    "icon": "help",
-    "method": "GET",
-}))]
-
-pub struct CreateRule {
-    pub rule_id: i32,
-    pub status: i32,
-    #[schema(value_type = String)]
-    pub create_time: DateTime,
-    #[schema(value_type = String)]
-    pub update_time: DateTime,
-    pub name: String,
-    pub desc: String,
-    pub front_path: Option<String>,
-    pub condition: Option<String>,
-    pub menu: i32,
-    pub order: Option<i32>,
-    pub icon: Option<String>,
-    pub method: Option<String>,
-}
 /// 创建新规则
 ///
 /// # 请求体
@@ -67,7 +35,8 @@ pub struct CreateRule {
     responses(
         (status = 200, description = "Rule created successfully", body = Model),
         (status = 500, description = "Internal server error")
-    )
+    ),
+    tag = "rules"
 )]
 pub async fn create_rule(
     db: web::Data<sea_orm::DatabaseConnection>,

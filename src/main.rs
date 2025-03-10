@@ -1,13 +1,15 @@
 use actix_web::{web, App, HttpServer};
-use api_doc::ApiDoc;
-use handlers::rule::create_rule;
+use api_docs::index::ApiDoc;
 use migration::{Migrator, MigratorTrait};
+use routers::rules::build_rule_router;
 use utoipa::OpenApi;
 use utoipa_swagger_ui::SwaggerUi;
 
-mod api_doc;
+mod api_docs;
 mod entity;
 mod handlers;
+mod models;
+mod routers;
 
 #[tokio::main]
 async fn main() -> std::io::Result<()> {
@@ -23,10 +25,8 @@ async fn main() -> std::io::Result<()> {
     HttpServer::new(move || {
         App::new()
             .app_data(db_data.clone())
-            .service(
-                web::scope("/api")
-                    .service(web::scope("/rules").route("", web::post().to(create_rule))),
-            )
+            .w
+            .service(web::scope("/api").service(build_rule_router()))
             .service(
                 SwaggerUi::new("/swagger-ui/{_:.*}")
                     .url("/api-docs/openapi.json", ApiDoc::openapi()),
