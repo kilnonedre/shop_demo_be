@@ -3,14 +3,15 @@ use utoipa::openapi::security::{HttpAuthScheme, HttpBuilder, SecurityScheme};
 use utoipa::{openapi, Modify, OpenApi};
 
 use crate::models::rules::CreateRule;
-use crate::entity::rules::Model;
+use crate::entities::rules::Model;
 
 use crate::handlers;
 
 #[derive(OpenApi)]
 #[openapi(
     paths(
-        handlers::rules::create_rule
+        handlers::rules::create_rule,
+        handlers::rules::init_rule
     ), 
     components(
         schemas(Model,CreateRule),

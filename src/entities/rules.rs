@@ -11,12 +11,10 @@ pub struct Model {
     pub id: i32,
     pub rule_id: i32,
     pub status: i32,
-    #[schema(value_type = String)]
-    pub create_time: DateTime,
-    #[schema(value_type = String)]
-    pub update_time: DateTime,
+    pub create_time: String,
+    pub update_time: String,
     pub name: String,
-    pub desc: String,
+    pub desc: Option<String>,
     pub front_path: Option<String>,
     pub condition: Option<String>,
     pub menu: i32,

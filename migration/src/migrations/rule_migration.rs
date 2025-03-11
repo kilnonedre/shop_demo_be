@@ -33,13 +33,13 @@ impl MigrationTrait for Migration {
                     )
                     .col(
                         ColumnDef::new(Rules::CreateTime)
-                            .date_time()
+                            .string()
                             .not_null()
                             .comment("创建时间"),
                     )
                     .col(
                         ColumnDef::new(Rules::UpdateTime)
-                            .date_time()
+                            .string()
                             .not_null()
                             .comment("更新时间"),
                     )
@@ -49,12 +49,7 @@ impl MigrationTrait for Migration {
                             .not_null()
                             .comment("名称"),
                     )
-                    .col(
-                        ColumnDef::new(Rules::Desc)
-                            .string()
-                            .not_null()
-                            .comment("描述"),
-                    )
+                    .col(ColumnDef::new(Rules::Desc).string().null().comment("描述"))
                     .col(
                         ColumnDef::new(Rules::FrontPath)
                             .string()

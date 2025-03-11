@@ -6,10 +6,11 @@ use utoipa::OpenApi;
 use utoipa_swagger_ui::SwaggerUi;
 
 mod api_docs;
-mod entity;
+mod entities;
 mod handlers;
 mod models;
 mod routers;
+mod utils;
 
 #[tokio::main]
 async fn main() -> std::io::Result<()> {
@@ -25,7 +26,6 @@ async fn main() -> std::io::Result<()> {
     HttpServer::new(move || {
         App::new()
             .app_data(db_data.clone())
-            .w
             .service(web::scope("/api").service(build_rule_router()))
             .service(
                 SwaggerUi::new("/swagger-ui/{_:.*}")

@@ -2,6 +2,8 @@ use sea_orm::prelude::DateTime;
 use serde::Deserialize;
 use utoipa::ToSchema;
 
+use crate::entities::rules::Model;
+
 #[derive(Debug, Deserialize, ToSchema)]
 #[schema(example  = json!({
     "rule_id": 0,
@@ -33,4 +35,23 @@ pub struct CreateRule {
     pub order: Option<i32>,
     pub icon: Option<String>,
     pub method: Option<String>,
+}
+
+#[derive(Debug, Deserialize, ToSchema)]
+
+pub struct Rule {
+    pub id: i32,
+    pub rule_id: i32,
+    pub status: i32,
+    pub create_time: String,
+    pub update_time: String,
+    pub name: String,
+    pub desc: Option<String>,
+    pub frontpath: Option<String>,
+    pub condition: Option<String>,
+    pub menu: i32,
+    pub order: Option<i32>,
+    pub icon: Option<String>,
+    pub method: Option<String>,
+    pub child: Vec<Rule>,
 }
