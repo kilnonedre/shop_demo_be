@@ -1,5 +1,5 @@
 use actix_web::{web, HttpResponse, Responder};
-use sea_orm::{ActiveModelTrait, Set};
+use sea_orm::ActiveModelTrait;
 use utils::insert_rule_with_child;
 
 use crate::{

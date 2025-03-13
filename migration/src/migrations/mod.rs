@@ -1,1 +1,2 @@
-pub mod rule_migration;
+pub mod admins;
+pub mod rules;

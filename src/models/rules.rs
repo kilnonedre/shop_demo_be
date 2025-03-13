@@ -2,8 +2,6 @@ use sea_orm::prelude::DateTime;
 use serde::Deserialize;
 use utoipa::ToSchema;
 
-use crate::entities::rules::Model;
-
 #[derive(Debug, Deserialize, ToSchema)]
 #[schema(example  = json!({
     "rule_id": 0,

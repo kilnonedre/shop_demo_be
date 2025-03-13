@@ -2,8 +2,10 @@ use serde::Serialize;
 use utoipa::openapi::security::{HttpAuthScheme, HttpBuilder, SecurityScheme};
 use utoipa::{openapi, Modify, OpenApi};
 
+use crate::entities::admins::Model as AdminModel;
+use crate::entities::rules::Model as RuleModel;
+use crate::models::admins::StructCreateAdmin;
 use crate::models::rules::CreateRule;
-use crate::entities::rules::Model;
 
 use crate::handlers;
 
@@ -11,14 +13,18 @@ use crate::handlers;
 #[openapi(
     paths(
         handlers::rules::create_rule,
-        handlers::rules::init_rule
+        handlers::rules::init_rule,
+        handlers::admins::create_admin,
+        handlers::admins::update_admin,
+        handlers::admins::delete_admin,
+        handlers::admins::update_admin_status,
     ), 
     components(
-        schemas(Model,CreateRule),
+        schemas(RuleModel, CreateRule, StructCreateAdmin, AdminModel),
     ),
     tags(
-        (name = "rules", description = "Rule management API",),
-        (name = "rules", description = "Rule management API")
+        (name = "rules", description = "Rule management API"),
+        (name = "admins", description = "Rule management API")
     ),
     modifiers(&Foo),
     security(

@@ -1,4 +1,4 @@
-use std::{fmt::Debug, fs::File, io::Read};
+use std::{fmt::Debug, fs::File};
 
 use serde::de::DeserializeOwned;
 use serde_json::Result;
