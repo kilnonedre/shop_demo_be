@@ -18,13 +18,18 @@ use crate::handlers;
         handlers::admins::update_admin,
         handlers::admins::delete_admin,
         handlers::admins::update_admin_status,
+        handlers::notices::get_notice_list,
+        handlers::notices::create_notice,
+        handlers::notices::update_notice,
+        handlers::notices::delete_notice,
     ), 
     components(
         schemas(RuleModel, CreateRule, StructCreateAdmin, AdminModel),
     ),
     tags(
         (name = "rules", description = "Rule management API"),
-        (name = "admins", description = "Rule management API")
+        (name = "admins", description = "Rule management API"),
+        (name = "notices", description = "Rule management API")
     ),
     modifiers(&Foo),
     security(
