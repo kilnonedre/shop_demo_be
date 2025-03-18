@@ -22,6 +22,12 @@ use crate::handlers;
         handlers::notices::create_notice,
         handlers::notices::update_notice,
         handlers::notices::delete_notice,
+        handlers::roles::get_role_list,
+        handlers::roles::create_role,
+        handlers::roles::update_role,
+        handlers::roles::delete_role,
+        handlers::roles::update_role_status,
+        handlers::roles::update_role_rule_ids,
     ), 
     components(
         schemas(RuleModel, CreateRule, StructCreateAdmin, AdminModel),

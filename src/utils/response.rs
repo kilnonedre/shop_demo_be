@@ -15,3 +15,16 @@ pub fn response_t<T>(code: Option<i16>, data: Option<T>, msg: Option<String>) ->
         msg: msg.unwrap_or(String::from("ok")),
     }
 }
+
+#[derive(Serialize, ToSchema)]
+pub struct ResponseListT<T> {
+    list: Vec<T>,
+    total_count: i16,
+}
+
+pub fn response_list_t<T>(list: Vec<T>, total_count: i16) -> ResponseListT<T> {
+    ResponseListT {
+        list: list,
+        total_count: total_count,
+    }
+}

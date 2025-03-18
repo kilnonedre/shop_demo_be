@@ -2,6 +2,7 @@ use serde::Deserialize;
 
 pub mod admins;
 pub mod notices;
+pub mod roles;
 pub mod rules;
 
 #[derive(Deserialize)]

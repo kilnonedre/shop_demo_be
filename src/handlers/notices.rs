@@ -5,7 +5,7 @@ use sea_orm::{ActiveModelTrait, ActiveValue::Set, EntityTrait, QuerySelect};
 use crate::{
     entities::notices::{self, ActiveModel, Model},
     models::{notices::StructCreateNotice, StructPagination},
-    utils::response::{response_t, ResponseT},
+    utils::response::{response_list_t, response_t, ResponseT},
 };
 
 /// 创建新公告
@@ -192,7 +192,11 @@ pub async fn get_notice_list(
         .all(db.get_ref())
         .await;
     match result {
-        Ok(notice_list) => HttpResponse::Ok().json(response_t(Some(200), Some(notice_list), None)),
+        Ok(notice_list) => HttpResponse::Ok().json(response_t(
+            Some(200),
+            Some(response_list_t(notice_list, 10)),
+            None,
+        )),
         Err(_) => HttpResponse::InternalServerError().finish(),
     }
 }

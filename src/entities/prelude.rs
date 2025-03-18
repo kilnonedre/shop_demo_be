@@ -2,4 +2,5 @@
 
 pub use super::admins::Entity as Admins;
 pub use super::notices::Entity as Notices;
+pub use super::roles::Entity as Roles;
 pub use super::rules::Entity as Rules;
