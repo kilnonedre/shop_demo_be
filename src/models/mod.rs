@@ -7,6 +7,6 @@ pub mod rules;
 
 #[derive(Deserialize)]
 pub struct StructPagination {
-    pub page: Option<i16>,
-    pub size: Option<i16>,
+    pub page: Option<u64>,
+    pub size: Option<u64>,
 }

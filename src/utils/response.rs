@@ -19,10 +19,10 @@ pub fn response_t<T>(code: Option<i16>, data: Option<T>, msg: Option<String>) ->
 #[derive(Serialize, ToSchema)]
 pub struct ResponseListT<T> {
     list: Vec<T>,
-    total_count: i16,
+    total_count: u64,
 }
 
-pub fn response_list_t<T>(list: Vec<T>, total_count: i16) -> ResponseListT<T> {
+pub fn response_list_t<T>(list: Vec<T>, total_count: u64) -> ResponseListT<T> {
     ResponseListT {
         list: list,
         total_count: total_count,

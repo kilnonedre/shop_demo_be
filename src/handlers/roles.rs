@@ -3,14 +3,11 @@ use chrono::Utc;
 use sea_orm::{
     ActiveModelTrait,
     ActiveValue::{NotSet, Set},
-    EntityTrait, QuerySelect,
+    EntityTrait, PaginatorTrait,
 };
 
 use crate::{
-    entities::{
-        notices,
-        roles::{self, ActiveModel, Model},
-    },
+    entities::roles::{self, ActiveModel, Model},
     models::{
         roles::{
             StructCreateRoleReq, StructUpdateRoleReq, StructUpdateRoleRuleIdsReq,
@@ -199,17 +196,18 @@ pub async fn get_role_list(
     let page = query.page.unwrap_or(1);
     let size = query.size.unwrap_or(10);
 
-    let offset = (page - 1) * size;
+    let paginator = roles::Entity::find().paginate(db.get_ref(), size);
 
-    let result = roles::Entity::find()
-        .offset(offset as u64)
-        .limit(size as u64)
-        .all(db.get_ref())
-        .await;
+    let total = match paginator.num_items().await {
+        Ok(total) => total,
+        Err(e) => return HttpResponse::InternalServerError().json(format!("Error: {}", e)),
+    };
+    let result = paginator.fetch_page(page - 1).await;
+
     match result {
         Ok(role_list) => HttpResponse::Ok().json(response_t(
             Some(200),
-            Some(response_list_t(role_list, 10)),
+            Some(response_list_t(role_list, total)),
             None,
         )),
         Err(_) => HttpResponse::InternalServerError().finish(),

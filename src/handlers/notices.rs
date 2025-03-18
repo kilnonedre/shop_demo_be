@@ -1,6 +1,6 @@
 use actix_web::{web, HttpResponse, Responder};
 use chrono::Utc;
-use sea_orm::{ActiveModelTrait, ActiveValue::Set, EntityTrait, QuerySelect};
+use sea_orm::{ActiveModelTrait, ActiveValue::Set, EntityTrait, PaginatorTrait};
 
 use crate::{
     entities::notices::{self, ActiveModel, Model},
@@ -184,17 +184,18 @@ pub async fn get_notice_list(
     let page = query.page.unwrap_or(1);
     let size = query.size.unwrap_or(10);
 
-    let offset = (page - 1) * size;
+    let paginator = notices::Entity::find().paginate(db.get_ref(), size);
 
-    let result = notices::Entity::find()
-        .offset(offset as u64)
-        .limit(size as u64)
-        .all(db.get_ref())
-        .await;
+    let total = match paginator.num_items().await {
+        Ok(total) => total,
+        Err(e) => return HttpResponse::InternalServerError().json(format!("Error: {}", e)),
+    };
+    let result = paginator.fetch_page(page - 1).await;
+
     match result {
-        Ok(notice_list) => HttpResponse::Ok().json(response_t(
+        Ok(role_list) => HttpResponse::Ok().json(response_t(
             Some(200),
-            Some(response_list_t(notice_list, 10)),
+            Some(response_list_t(role_list, total)),
             None,
         )),
         Err(_) => HttpResponse::InternalServerError().finish(),
