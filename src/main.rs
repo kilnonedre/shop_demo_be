@@ -3,7 +3,7 @@ use api_docs::index::ApiDoc;
 use migration::{Migrator, MigratorTrait};
 use routers::{
     admins::build_admin_router, notices::build_notice_router, roles::build_role_router,
-    rules::build_rule_router,
+    rules::build_rule_router, users::build_user_router,
 };
 use utoipa::OpenApi;
 use utoipa_swagger_ui::SwaggerUi;
@@ -34,7 +34,8 @@ async fn main() -> std::io::Result<()> {
                     .service(build_rule_router())
                     .service(build_admin_router())
                     .service(build_notice_router())
-                    .service(build_role_router()),
+                    .service(build_role_router())
+                    .service(build_user_router()),
             )
             .service(
                 SwaggerUi::new("/swagger-ui/{_:.*}")

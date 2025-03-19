@@ -28,14 +28,21 @@ use crate::handlers;
         handlers::roles::delete_role,
         handlers::roles::update_role_status,
         handlers::roles::update_role_rule_ids,
+        handlers::users::get_user_list,
+        handlers::users::create_user,
+        handlers::users::update_user,
+        handlers::users::update_user_status,
+        handlers::users::delete_user,
     ), 
     components(
         schemas(RuleModel, CreateRule, StructCreateAdmin, AdminModel),
     ),
     tags(
-        (name = "rules", description = "Rule management API"),
-        (name = "admins", description = "Rule management API"),
-        (name = "notices", description = "Rule management API")
+        (name = "rules", description = "权限管理 API"),
+        (name = "admins", description = "管理员管理 API"),
+        (name = "notices", description = "公告管理 API"),
+        (name = "roles", description = "角色管理 API"),
+        (name = "users", description = "用户管理 API")
     ),
     modifiers(&Foo),
     security(
