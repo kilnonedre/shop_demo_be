@@ -61,6 +61,6 @@ pub struct StructGetUserListReq {
     /// Search by value. Search is incase sensitive.
     pub page: u64,
     pub size: u64,
-    pub keyword: Option<i32>,
+    pub keyword: Option<String>,
     pub user_level_id: Option<i32>,
 }

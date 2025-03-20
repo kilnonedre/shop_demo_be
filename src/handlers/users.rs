@@ -8,12 +8,8 @@ use sea_orm::{
 
 use crate::{
     entities::users::{self, ActiveModel, Model},
-    models::{
-        users::{
-            StructCreateUserReq, StructGetUserListReq, StructUpdateUserReq,
-            StructUpdateUserStatusReq,
-        },
-        StructPagination,
+    models::users::{
+        StructCreateUserReq, StructGetUserListReq, StructUpdateUserReq, StructUpdateUserStatusReq,
     },
     utils::response::{response_list_t, response_t, ResponseT},
 };
@@ -295,6 +291,16 @@ pub async fn get_user_list(
     let mut select = users::Entity::find();
     if let Some(user_level_id) = query.user_level_id {
         select = select.filter(users::Column::UserLevelId.eq(user_level_id));
+    }
+    if let Some(keyword) = query.keyword.clone() {
+        let keyword_pattern = format!("%{}%", keyword);
+        select = select.filter(
+            users::Column::Username
+                .like(&keyword_pattern)
+                .or(users::Column::Phone
+                    .like(&keyword_pattern)
+                    .or(users::Column::Email.like(&keyword_pattern))),
+        )
     }
     let paginator = select.paginate(db.get_ref(), size);
 
