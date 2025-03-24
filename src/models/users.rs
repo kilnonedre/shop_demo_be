@@ -58,8 +58,9 @@ pub struct StructUpdateUserStatusReq {
 
 #[derive(Debug, Deserialize, ToSchema, IntoParams)]
 pub struct StructGetUserListReq {
-    /// Search by value. Search is incase sensitive.
+    #[param(style = Form, allow_reserved, example = 1)]
     pub page: u64,
+    #[param(style = Form, allow_reserved, example = 10)]
     pub size: u64,
     pub keyword: Option<String>,
     pub user_level_id: Option<i32>,

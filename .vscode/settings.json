@@ -1,3 +1,13 @@
 {
-  "cSpell.words": ["actix", "chrono", "dotenv", "serde", "sqlx", "utoipa"]
+  "cSpell.words": [
+    "actix",
+    "chrono",
+    "codegen",
+    "dotenv",
+    "Iden",
+    "serde",
+    "skus",
+    "sqlx",
+    "utoipa"
+  ]
 }

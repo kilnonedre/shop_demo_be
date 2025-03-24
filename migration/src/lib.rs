@@ -1,4 +1,4 @@
-use migrations::{admins, notices, roles, rules, users};
+use migrations::{admins, coupons, notices, roles, rules, skus, user_levels, users};
 pub use sea_orm_migration::prelude::*;
 
 mod migrations;
@@ -14,6 +14,9 @@ impl MigratorTrait for Migrator {
             Box::new(notices::Migration),
             Box::new(roles::Migration),
             Box::new(users::Migration),
+            Box::new(skus::Migration),
+            Box::new(coupons::Migration),
+            Box::new(user_levels::Migration),
         ]
     }
 }

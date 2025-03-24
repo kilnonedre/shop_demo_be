@@ -33,6 +33,21 @@ use crate::handlers;
         handlers::users::update_user,
         handlers::users::update_user_status,
         handlers::users::delete_user,
+        handlers::skus::get_sku_list,
+        handlers::skus::create_sku,
+        handlers::skus::update_sku,
+        handlers::skus::update_sku_status,
+        handlers::skus::delete_all_sku,
+        handlers::coupons::get_coupon_list,
+        handlers::coupons::create_coupon,
+        handlers::coupons::update_coupon,
+        handlers::coupons::update_coupon_status,
+        handlers::coupons::delete_coupon,
+        handlers::user_levels::get_user_level_list,
+        handlers::user_levels::create_user_level,
+        handlers::user_levels::update_user_level,
+        handlers::user_levels::update_user_level_status,
+        handlers::user_levels::delete_user_level,
     ), 
     components(
         schemas(RuleModel, CreateRule, StructCreateAdmin, AdminModel),
@@ -42,7 +57,10 @@ use crate::handlers;
         (name = "admins", description = "管理员管理 API"),
         (name = "notices", description = "公告管理 API"),
         (name = "roles", description = "角色管理 API"),
-        (name = "users", description = "用户管理 API")
+        (name = "users", description = "用户管理 API"),
+        (name = "skus", description = "规格管理 API"),
+        (name = "coupons", description = "优惠券管理 API"),
+        (name = "user_levels", description = "会员等级管理 API")
     ),
     modifiers(&Foo),
     security(
