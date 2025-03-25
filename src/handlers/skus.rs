@@ -8,9 +8,11 @@ use sea_orm::{
 
 use crate::{
     entities::skus::{self, ActiveModel, Model},
-    models::skus::{
-        StructCreateSkuReq, StructDeleteSkuAllReq, StructGetSkuListReq, StructUpdateSkuReq,
-        StructUpdateSkuStatusReq,
+    models::{
+        skus::{
+            StructCreateSkuReq, StructDeleteSkuAllReq, StructUpdateSkuReq, StructUpdateSkuStatusReq,
+        },
+        StructPagination,
     },
     utils::response::{response_list_t, response_t, ResponseT},
 };
@@ -243,7 +245,7 @@ pub async fn delete_all_sku(
     get,
     path = "/api/skus",
     params(
-        StructGetSkuListReq
+        StructPagination
     ),
     responses(
         (status = 200, description = "规格列表获取成功", body = ResponseT<Model>),
@@ -253,7 +255,7 @@ pub async fn delete_all_sku(
 )]
 pub async fn get_sku_list(
     db: web::Data<sea_orm::DatabaseConnection>,
-    query: web::Query<StructGetSkuListReq>,
+    query: web::Query<StructPagination>,
 ) -> impl Responder {
     let page = query.page;
     let size = query.size;

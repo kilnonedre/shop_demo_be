@@ -1,5 +1,5 @@
 use serde::Deserialize;
-use utoipa::{IntoParams, ToSchema};
+use utoipa::ToSchema;
 
 #[derive(Debug, Deserialize, ToSchema)]
 #[schema(example  = json!({
@@ -47,12 +47,4 @@ pub struct StructUpdateSkuStatusReq {
 
 pub struct StructDeleteSkuAllReq {
     pub ids: Vec<i32>,
-}
-
-#[derive(Debug, Deserialize, ToSchema, IntoParams)]
-pub struct StructGetSkuListReq {
-    #[param(style = Form, allow_reserved, example = 1)]
-    pub page: u64,
-    #[param(style = Form, allow_reserved, example = 10)]
-    pub size: u64,
 }

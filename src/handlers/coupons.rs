@@ -8,9 +8,9 @@ use sea_orm::{
 
 use crate::{
     entities::coupons::{self, ActiveModel, Model},
-    models::coupons::{
-        StructCreateCouponReq, StructGetCouponListReq, StructUpdateCouponReq,
-        StructUpdateCouponStatusReq,
+    models::{
+        coupons::{StructCreateCouponReq, StructUpdateCouponReq, StructUpdateCouponStatusReq},
+        StructPagination,
     },
     utils::response::{response_list_t, response_t, ResponseT},
 };
@@ -273,7 +273,7 @@ pub async fn delete_coupon(
     get,
     path = "/api/coupons",
     params(
-        StructGetCouponListReq
+        StructPagination
     ),
     responses(
         (status = 200, description = "角色列表获取成功", body = ResponseT<Model>),
@@ -283,7 +283,7 @@ pub async fn delete_coupon(
 )]
 pub async fn get_coupon_list(
     db: web::Data<sea_orm::DatabaseConnection>,
-    query: web::Query<StructGetCouponListReq>,
+    query: web::Query<StructPagination>,
 ) -> impl Responder {
     let page = query.page;
     let size = query.size;

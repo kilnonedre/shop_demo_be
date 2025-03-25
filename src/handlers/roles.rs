@@ -193,8 +193,8 @@ pub async fn get_role_list(
     db: web::Data<sea_orm::DatabaseConnection>,
     query: web::Query<StructPagination>,
 ) -> impl Responder {
-    let page = query.page.unwrap_or(1);
-    let size = query.size.unwrap_or(10);
+    let page = query.page;
+    let size = query.size;
 
     let paginator = roles::Entity::find().paginate(db.get_ref(), size);
 

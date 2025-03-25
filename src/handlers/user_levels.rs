@@ -9,14 +9,10 @@ use sea_orm::{
 use crate::{
     entities::user_levels::{self, ActiveModel, Model},
     models::{
-        coupons::{
-            StructCreateCouponReq, StructGetCouponListReq, StructUpdateCouponReq,
-            StructUpdateCouponStatusReq,
-        },
         user_levels::{
-            StructCreateUserLevelReq, StructGetUserLevelListReq, StructUpdateUserLevelReq,
-            StructUpdateUserLevelStatusReq,
+            StructCreateUserLevelReq, StructUpdateUserLevelReq, StructUpdateUserLevelStatusReq,
         },
+        StructPagination,
     },
     utils::response::{response_list_t, response_t, ResponseT},
 };
@@ -258,7 +254,7 @@ pub async fn delete_user_level(
     get,
     path = "/api/user_levels",
     params(
-        StructGetUserLevelListReq
+        StructPagination
     ),
     responses(
         (status = 200, description = "会员等级列表获取成功", body = ResponseT<Model>),
@@ -268,7 +264,7 @@ pub async fn delete_user_level(
 )]
 pub async fn get_user_level_list(
     db: web::Data<sea_orm::DatabaseConnection>,
-    query: web::Query<StructGetUserLevelListReq>,
+    query: web::Query<StructPagination>,
 ) -> impl Responder {
     let page = query.page;
     let size = query.size;

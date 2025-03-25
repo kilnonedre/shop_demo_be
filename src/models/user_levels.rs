@@ -1,5 +1,5 @@
 use serde::Deserialize;
-use utoipa::{IntoParams, ToSchema};
+use utoipa::ToSchema;
 
 #[derive(Debug, Deserialize, ToSchema)]
 #[schema(example  = json!({
@@ -46,12 +46,4 @@ pub struct StructUpdateUserLevelReq {
 
 pub struct StructUpdateUserLevelStatusReq {
     pub status: i32,
-}
-
-#[derive(Debug, Deserialize, ToSchema, IntoParams)]
-pub struct StructGetUserLevelListReq {
-    #[param(style = Form, allow_reserved, example = 1)]
-    pub page: u64,
-    #[param(style = Form, allow_reserved, example = 10)]
-    pub size: u64,
 }

@@ -5,15 +5,18 @@ use utoipa::{openapi, Modify, OpenApi};
 use crate::entities::admins::Model as AdminModel;
 use crate::entities::rules::Model as RuleModel;
 use crate::models::admins::StructCreateAdmin;
-use crate::models::rules::CreateRule;
 
 use crate::handlers;
 
 #[derive(OpenApi)]
 #[openapi(
     paths(
-        handlers::rules::create_rule,
         handlers::rules::init_rule,
+        handlers::rules::get_rule_list,
+        handlers::rules::create_rule,
+        handlers::rules::update_rule,
+        handlers::rules::update_rule_status,
+        handlers::rules::delete_rule,
         handlers::admins::create_admin,
         handlers::admins::update_admin,
         handlers::admins::delete_admin,
@@ -50,7 +53,7 @@ use crate::handlers;
         handlers::user_levels::delete_user_level,
     ), 
     components(
-        schemas(RuleModel, CreateRule, StructCreateAdmin, AdminModel),
+        schemas(RuleModel, StructCreateAdmin, AdminModel),
     ),
     tags(
         (name = "rules", description = "权限管理 API"),

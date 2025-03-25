@@ -9,18 +9,17 @@ use utoipa::ToSchema;
 pub struct Model {
     #[sea_orm(primary_key)]
     pub id: i32,
+    pub name: String,
     pub rule_id: i32,
     pub status: i32,
     pub create_time: String,
     pub update_time: String,
-    pub name: String,
-    pub desc: Option<String>,
-    pub front_path: Option<String>,
-    pub condition: Option<String>,
+    pub front_path: String,
+    pub condition: String,
     pub menu: i32,
-    pub order: Option<i32>,
-    pub icon: Option<String>,
-    pub method: Option<String>,
+    pub order: i32,
+    pub icon: String,
+    pub method: String,
 }
 
 #[derive(Copy, Clone, Debug, EnumIter, DeriveRelation)]

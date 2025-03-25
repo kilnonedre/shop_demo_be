@@ -17,19 +17,25 @@ impl MigrationTrait for Migration {
                             .auto_increment()
                             .primary_key()
                             .not_null()
-                            .comment("用户 ID"),
+                            .comment("菜单权限 ID"),
+                    )
+                    .col(
+                        ColumnDef::new(Rules::Name)
+                            .string()
+                            .not_null()
+                            .comment("名称"),
                     )
                     .col(
                         ColumnDef::new(Rules::RuleId)
                             .integer()
                             .not_null()
-                            .comment(""),
+                            .comment("上级菜单 ID"),
                     )
                     .col(
                         ColumnDef::new(Rules::Status)
                             .integer()
                             .not_null()
-                            .comment("状态"),
+                            .comment("状态：0 禁用；1 启用"),
                     )
                     .col(
                         ColumnDef::new(Rules::CreateTime)
@@ -44,27 +50,40 @@ impl MigrationTrait for Migration {
                             .comment("更新时间"),
                     )
                     .col(
-                        ColumnDef::new(Rules::Name)
-                            .string()
-                            .not_null()
-                            .comment("名称"),
-                    )
-                    .col(ColumnDef::new(Rules::Desc).string().null().comment("描述"))
-                    .col(
                         ColumnDef::new(Rules::FrontPath)
                             .string()
-                            .null()
+                            .not_null()
                             .comment("前端路由"),
                     )
-                    .col(ColumnDef::new(Rules::Condition).string().null().comment(""))
-                    .col(ColumnDef::new(Rules::Menu).integer().not_null().comment(""))
-                    .col(ColumnDef::new(Rules::Order).integer().null().comment(""))
-                    .col(ColumnDef::new(Rules::Icon).string().null().comment("图标"))
+                    .col(
+                        ColumnDef::new(Rules::Condition)
+                            .string()
+                            .not_null()
+                            .comment("后端规则，由后端提供的接口别名"),
+                    )
+                    .col(
+                        ColumnDef::new(Rules::Menu)
+                            .integer()
+                            .not_null()
+                            .comment("是否为菜单：0 否；1 是"),
+                    )
+                    .col(
+                        ColumnDef::new(Rules::Order)
+                            .integer()
+                            .not_null()
+                            .comment("权重"),
+                    )
+                    .col(
+                        ColumnDef::new(Rules::Icon)
+                            .string()
+                            .not_null()
+                            .comment("element-plus 图标"),
+                    )
                     .col(
                         ColumnDef::new(Rules::Method)
                             .string()
-                            .null()
-                            .comment("方法"),
+                            .not_null()
+                            .comment("请求方式"),
                     )
                     .to_owned(),
             )
@@ -82,12 +101,11 @@ impl MigrationTrait for Migration {
 enum Rules {
     Table,
     Id,
+    Name,
     RuleId,
     Status,
     CreateTime,
     UpdateTime,
-    Name,
-    Desc,
     FrontPath,
     Condition,
     Menu,
