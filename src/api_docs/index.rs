@@ -56,13 +56,13 @@ use crate::handlers;
         schemas(RuleModel, StructCreateAdmin, AdminModel),
     ),
     tags(
-        (name = "rules", description = "权限管理 API"),
         (name = "admins", description = "管理员管理 API"),
         (name = "notices", description = "公告管理 API"),
+        (name = "rules", description = "权限管理 API"),
         (name = "roles", description = "角色管理 API"),
-        (name = "users", description = "用户管理 API"),
         (name = "skus", description = "规格管理 API"),
         (name = "coupons", description = "优惠券管理 API"),
+        (name = "users", description = "用户管理 API"),
         (name = "user_levels", description = "会员等级管理 API")
     ),
     modifiers(&Foo),
