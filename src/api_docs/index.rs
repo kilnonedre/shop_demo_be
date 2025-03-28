@@ -54,6 +54,11 @@ use crate::handlers;
         handlers::images::upload_file,
         handlers::images::delete_all_image,
         handlers::images::update_image,
+        handlers::image_classes::get_image_class_list,
+        handlers::image_classes::get_image_list_by_image_class_id,
+        handlers::image_classes::create_image_class,
+        handlers::image_classes::update_image_class,
+        handlers::image_classes::delete_image_class,
     ), 
     components(
         schemas(RuleModel, StructCreateAdmin, AdminModel),
@@ -67,7 +72,8 @@ use crate::handlers;
         (name = "coupons", description = "优惠券管理 API"),
         (name = "users", description = "用户管理 API"),
         (name = "user_levels", description = "会员等级管理 API"),
-        (name = "images", description = "图片上传管理 API")
+        (name = "images", description = "图片上传管理 API"),
+        (name = "image_classes", description = "图库管理 API")
     ),
     modifiers(&Foo),
     security(

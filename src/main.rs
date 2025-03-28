@@ -2,7 +2,8 @@ use actix_web::{web, App, HttpServer};
 use api_docs::index::ApiDoc;
 use migration::{Migrator, MigratorTrait};
 use routers::{
-    admins::build_admin_router, coupons::build_coupon_router, images::build_image_router,
+    admins::build_admin_router, coupons::build_coupon_router,
+    image_classes::build_image_class_router, images::build_image_router,
     notices::build_notice_router, roles::build_role_router, rules::build_rule_router,
     skus::build_sku_router, user_levels::build_user_level_router, users::build_user_router,
 };
@@ -40,7 +41,8 @@ async fn main() -> std::io::Result<()> {
                     .service(build_sku_router())
                     .service(build_coupon_router())
                     .service(build_user_level_router())
-                    .service(build_image_router()),
+                    .service(build_image_router())
+                    .service(build_image_class_router()),
             )
             .service(
                 SwaggerUi::new("/swagger-ui/{_:.*}")

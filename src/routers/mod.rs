@@ -1,5 +1,6 @@
 pub mod admins;
 pub mod coupons;
+pub mod image_classes;
 pub mod images;
 pub mod notices;
 pub mod roles;
