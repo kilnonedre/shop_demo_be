@@ -51,6 +51,9 @@ use crate::handlers;
         handlers::user_levels::update_user_level,
         handlers::user_levels::update_user_level_status,
         handlers::user_levels::delete_user_level,
+        handlers::images::upload_file,
+        handlers::images::delete_all_image,
+        handlers::images::update_image,
     ), 
     components(
         schemas(RuleModel, StructCreateAdmin, AdminModel),
@@ -63,7 +66,8 @@ use crate::handlers;
         (name = "skus", description = "规格管理 API"),
         (name = "coupons", description = "优惠券管理 API"),
         (name = "users", description = "用户管理 API"),
-        (name = "user_levels", description = "会员等级管理 API")
+        (name = "user_levels", description = "会员等级管理 API"),
+        (name = "images", description = "图片上传管理 API")
     ),
     modifiers(&Foo),
     security(

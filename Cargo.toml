@@ -22,3 +22,5 @@ utoipa = { version = "5.3.1", features = ["actix_extras"] }
 utoipa-swagger-ui = { version = "9.0.0", features = ["actix-web"] }
 log = "0.4.26"
 dotenv = "0.15.0"
+actix-multipart = "0.7.2"
+futures-util = "0.3.31"
