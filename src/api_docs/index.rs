@@ -4,7 +4,7 @@ use utoipa::{openapi, Modify, OpenApi};
 
 use crate::entities::admins::Model as AdminModel;
 use crate::entities::rules::Model as RuleModel;
-use crate::models::admins::StructCreateAdmin;
+use crate::models::admins::CreateAdmin;
 
 use crate::handlers;
 
@@ -61,19 +61,26 @@ use crate::handlers;
         handlers::image_classes::delete_image_class,
     ), 
     components(
-        schemas(RuleModel, StructCreateAdmin, AdminModel),
+        schemas(RuleModel, CreateAdmin, AdminModel),
     ),
     tags(
         (name = "admins", description = "管理员管理 API"),
+        (name = "statistics", description = "后台统计 API"),
+        (name = "image_classes", description = "图库管理 API"),
+        (name = "images", description = "图片上传管理 API"),
         (name = "notices", description = "公告管理 API"),
         (name = "rules", description = "权限管理 API"),
         (name = "roles", description = "角色管理 API"),
         (name = "skus", description = "规格管理 API"),
         (name = "coupons", description = "优惠券管理 API"),
+        (name = "goods", description = "商品管理 API"),
+        (name = "categories", description = "商品分类管理 API"),
         (name = "users", description = "用户管理 API"),
         (name = "user_levels", description = "会员等级管理 API"),
-        (name = "images", description = "图片上传管理 API"),
-        (name = "image_classes", description = "图库管理 API")
+        (name = "good_comments", description = "商品评论管理 API"),
+        (name = "orders", description = "订单管理 API"),
+        (name = "sys_configs", description = "系统配置管理 API"),
+        (name = "agents", description = "分销管理 API"),
     ),
     modifiers(&Foo),
     security(

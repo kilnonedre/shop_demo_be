@@ -4,7 +4,7 @@ use sea_orm::{ActiveModelTrait, ActiveValue::Set, EntityTrait, PaginatorTrait};
 
 use crate::{
     entities::notices::{self, ActiveModel, Model},
-    models::{notices::StructCreateNotice, StructPagination},
+    models::{notices::CreateNotice, Pagination},
     utils::response::{response_list_t, response_t, ResponseT},
 };
 
@@ -39,7 +39,7 @@ use crate::{
 #[utoipa::path(
     post,
     path  = "/api/notices",
-    request_body = StructCreateNotice,
+    request_body = CreateNotice,
     responses(
         (status = 200, description = "公告创建成功", body = ResponseT<Model>),
         (status = 500, description = "内部服务器错误")
@@ -48,7 +48,7 @@ use crate::{
 )]
 pub async fn create_notice(
     db: web::Data<sea_orm::DatabaseConnection>,
-    notice_data: web::Json<StructCreateNotice>,
+    notice_data: web::Json<CreateNotice>,
 ) -> impl Responder {
     let now = Utc::now();
     let format_time = now.format("%Y-%m-%d %H:%M:%S").to_string();
@@ -89,7 +89,7 @@ pub async fn create_notice(
 #[utoipa::path(
     put,
     path = "/api/notices/{id}",
-    request_body = StructCreateNotice,
+    request_body = CreateNotice,
     responses(
         (status = 200, description = "公告更新成功", body = ResponseT<Model>),
         (status = 500, description = "内部服务器错误")
@@ -99,7 +99,7 @@ pub async fn create_notice(
 pub async fn update_notice(
     db: web::Data<sea_orm::DatabaseConnection>,
     id: web::Path<i16>,
-    notice_data: web::Json<StructCreateNotice>,
+    notice_data: web::Json<CreateNotice>,
 ) -> impl Responder {
     let notice_result = notices::Entity::find_by_id(*id).one(db.get_ref()).await;
 
@@ -179,7 +179,7 @@ pub async fn delete_notice(
 )]
 pub async fn get_notice_list(
     db: web::Data<sea_orm::DatabaseConnection>,
-    query: web::Query<StructPagination>,
+    query: web::Query<Pagination>,
 ) -> impl Responder {
     let page = query.page;
     let size = query.size;

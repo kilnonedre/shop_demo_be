@@ -10,10 +10,10 @@ use crate::{
     entities::roles::{self, ActiveModel, Model},
     models::{
         roles::{
-            StructCreateRoleReq, StructUpdateRoleReq, StructUpdateRoleRuleIdsReq,
-            StructUpdateRoleStatusReq,
+            CreateRoleReq, UpdateRoleReq, UpdateRoleRuleIdsReq,
+            UpdateRoleStatusReq,
         },
-        StructPagination,
+        Pagination,
     },
     utils::response::{response_list_t, response_t, ResponseT},
 };
@@ -48,7 +48,7 @@ use crate::{
 #[utoipa::path(
     post,
     path  = "/api/roles",
-    request_body = StructCreateRoleReq,
+    request_body = CreateRoleReq,
     responses(
         (status = 200, description = "角色创建成功", body = ResponseT<Model>),
         (status = 500, description = "内部服务器错误")
@@ -57,7 +57,7 @@ use crate::{
 )]
 pub async fn create_role(
     db: web::Data<sea_orm::DatabaseConnection>,
-    role_data: web::Json<StructCreateRoleReq>,
+    role_data: web::Json<CreateRoleReq>,
 ) -> impl Responder {
     let now = Utc::now();
     let format_time = now.format("%Y-%m-%d %H:%M:%S").to_string();
@@ -100,7 +100,7 @@ pub async fn create_role(
 #[utoipa::path(
     put,
     path = "/api/roles/{id}",
-    request_body = StructUpdateRoleReq,
+    request_body = UpdateRoleReq,
     responses(
         (status = 200, description = "角色更新成功", body = ResponseT<Model>),
         (status = 500, description = "内部服务器错误")
@@ -110,7 +110,7 @@ pub async fn create_role(
 pub async fn update_role(
     db: web::Data<sea_orm::DatabaseConnection>,
     id: web::Path<i16>,
-    role_data: web::Json<StructUpdateRoleReq>,
+    role_data: web::Json<UpdateRoleReq>,
 ) -> impl Responder {
     let role_result = roles::Entity::find_by_id(*id).one(db.get_ref()).await;
 
@@ -191,7 +191,7 @@ pub async fn delete_role(
 )]
 pub async fn get_role_list(
     db: web::Data<sea_orm::DatabaseConnection>,
-    query: web::Query<StructPagination>,
+    query: web::Query<Pagination>,
 ) -> impl Responder {
     let page = query.page;
     let size = query.size;
@@ -234,7 +234,7 @@ pub async fn get_role_list(
 #[utoipa::path(
     patch,
     path = "/api/roles/{id}/update_status",
-    request_body = StructUpdateRoleStatusReq,
+    request_body = UpdateRoleStatusReq,
     responses(
         (status = 200, description = "角色更新成功", body = ResponseT<Model>),
         (status = 500, description = "内部服务器错误")
@@ -244,7 +244,7 @@ pub async fn get_role_list(
 pub async fn update_role_status(
     db: web::Data<sea_orm::DatabaseConnection>,
     id: web::Path<i16>,
-    role_data: web::Json<StructUpdateRoleStatusReq>,
+    role_data: web::Json<UpdateRoleStatusReq>,
 ) -> impl Responder {
     let role_result = roles::Entity::find_by_id(*id).one(db.get_ref()).await;
 
@@ -290,7 +290,7 @@ pub async fn update_role_status(
 #[utoipa::path(
     patch,
     path = "/api/roles/{id}/set_rules",
-    request_body = StructUpdateRoleRuleIdsReq,
+    request_body = UpdateRoleRuleIdsReq,
     responses(
         (status = 200, description = "角色更新成功", body = ResponseT<Model>),
         (status = 500, description = "内部服务器错误")
@@ -300,7 +300,7 @@ pub async fn update_role_status(
 pub async fn update_role_rule_ids(
     db: web::Data<sea_orm::DatabaseConnection>,
     id: web::Path<i16>,
-    role_data: web::Json<StructUpdateRoleRuleIdsReq>,
+    role_data: web::Json<UpdateRoleRuleIdsReq>,
 ) -> impl Responder {
     let role_result = roles::Entity::find_by_id(*id).one(db.get_ref()).await;
 

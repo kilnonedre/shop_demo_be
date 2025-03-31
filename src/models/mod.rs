@@ -13,7 +13,7 @@ pub mod user_levels;
 pub mod users;
 
 #[derive(Debug, Deserialize, ToSchema, IntoParams)]
-pub struct StructPagination {
+pub struct Pagination {
     #[param(style = Form, allow_reserved, example = 1)]
     pub page: u64,
     #[param(style = Form, allow_reserved, example = 10)]

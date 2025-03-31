@@ -4,7 +4,7 @@ use sea_orm::{ActiveModelTrait, ActiveValue::Set, ColumnTrait, EntityTrait, Quer
 
 use crate::{
     entities::admins::{self, ActiveModel, Model},
-    models::admins::{StructCreateAdmin, StructUpdateAdminStatus},
+    models::admins::{CreateAdmin, UpdateAdminStatus},
     utils::response::{response_t, ResponseT},
 };
 
@@ -42,7 +42,7 @@ use crate::{
 #[utoipa::path(
     post,
     path  = "/api/admins/manager",
-    request_body = StructCreateAdmin,
+    request_body = CreateAdmin,
     responses(
         (status = 200, description = "管理员创建成功", body = ResponseT<Model>),
         (status = 500, description = "内部服务器错误")
@@ -51,7 +51,7 @@ use crate::{
 )]
 pub async fn create_admin(
     db: web::Data<sea_orm::DatabaseConnection>,
-    admin_data: web::Json<StructCreateAdmin>,
+    admin_data: web::Json<CreateAdmin>,
 ) -> impl Responder {
     let admin_result = admins::Entity::find()
         .filter(admins::Column::Username.eq(admin_data.username.clone()))
@@ -110,7 +110,7 @@ pub async fn create_admin(
 #[utoipa::path(
     put,
     path  = "/api/admins/manager/{id}",
-    request_body = StructCreateAdmin,
+    request_body = CreateAdmin,
     responses(
         (status = 200, description = "管理员更新成功", body = ResponseT<Model>),
         (status = 500, description = "内部服务器错误")
@@ -120,7 +120,7 @@ pub async fn create_admin(
 pub async fn update_admin(
     db: web::Data<sea_orm::DatabaseConnection>,
     id: web::Path<i16>,
-    admin_data: web::Json<StructCreateAdmin>,
+    admin_data: web::Json<CreateAdmin>,
 ) -> impl Responder {
     let admin_result = admins::Entity::find_by_id(*id).one(db.get_ref()).await;
 
@@ -200,7 +200,7 @@ pub async fn delete_admin(
 #[utoipa::path(
     patch,
     path  = "/api/admins/manager/{id}/update_status",
-    request_body = StructUpdateAdminStatus,
+    request_body = UpdateAdminStatus,
     responses(
         (status = 200, description = "管理员状态修改成功", body = ResponseT<String>),
         (status = 500, description = "内部服务器错误")
@@ -210,7 +210,7 @@ pub async fn delete_admin(
 pub async fn update_admin_status(
     db: web::Data<sea_orm::DatabaseConnection>,
     id: web::Path<i16>,
-    admin_data: web::Json<StructUpdateAdminStatus>,
+    admin_data: web::Json<UpdateAdminStatus>,
 ) -> impl Responder {
     let admin_result = admins::Entity::find_by_id(*id).one(db.get_ref()).await;
 

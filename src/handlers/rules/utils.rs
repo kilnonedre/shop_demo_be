@@ -3,12 +3,12 @@ use sea_orm::{ActiveModelTrait, ActiveValue::Set};
 
 use crate::{
     entities::rules::{ActiveModel, Model},
-    models::rules::StructRule,
+    models::rules::Rule,
 };
 
 pub async fn insert_rule_with_child(
     db: &web::Data<sea_orm::DatabaseConnection>,
-    rule_list: Vec<StructRule>,
+    rule_list: Vec<Rule>,
 ) {
     for rule in rule_list {
         let active_model = ActiveModel {
@@ -36,12 +36,12 @@ pub async fn insert_rule_with_child(
     }
 }
 
-pub fn build_rule_tree(nodes: Vec<Model>, rule_id: i32) -> Vec<StructRule> {
-    let mut tree: Vec<StructRule> = Vec::new();
+pub fn build_rule_tree(nodes: Vec<Model>, rule_id: i32) -> Vec<Rule> {
+    let mut tree: Vec<Rule> = Vec::new();
 
     // 找到所有 parent_rule_id 为当前父节点的节点
     for node in nodes.iter().filter(|&node| node.rule_id == rule_id) {
-        let mut node_with_children = StructRule {
+        let mut node_with_children = Rule {
             id: node.id,
             name: node.name.clone(),
             rule_id: node.rule_id,

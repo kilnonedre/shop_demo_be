@@ -10,7 +10,7 @@ use utoipa::ToSchema;
     "password": "xxxxxxxxxx",
 }))]
 
-pub struct StructCreateAdmin {
+pub struct CreateAdmin {
     pub username: String,
     pub password: String,
     pub role_id: i32,
@@ -23,6 +23,6 @@ pub struct StructCreateAdmin {
     "status": 1,
 }))]
 
-pub struct StructUpdateAdminStatus {
+pub struct UpdateAdminStatus {
     pub status: i32,
 }

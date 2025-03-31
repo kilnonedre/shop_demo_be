@@ -16,7 +16,7 @@ use utoipa::ToSchema;
     "desc": "描述",
 }))]
 
-pub struct StructCreateCouponReq {
+pub struct CreateCouponReq {
     pub name: String,
     pub r#type: i32,
     pub value: f64,
@@ -45,7 +45,7 @@ pub struct StructCreateCouponReq {
     "desc": "描述",
 }))]
 
-pub struct StructUpdateCouponReq {
+pub struct UpdateCouponReq {
     pub name: Option<String>,
     pub r#type: Option<i32>,
     pub value: Option<f64>,
@@ -64,6 +64,6 @@ pub struct StructUpdateCouponReq {
     "status": 1,
 }))]
 
-pub struct StructUpdateCouponStatusReq {
+pub struct UpdateCouponStatusReq {
     pub status: i32,
 }

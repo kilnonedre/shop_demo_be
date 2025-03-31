@@ -9,8 +9,8 @@ use sea_orm::{
 use crate::{
     entities::coupons::{self, ActiveModel, Model},
     models::{
-        coupons::{StructCreateCouponReq, StructUpdateCouponReq, StructUpdateCouponStatusReq},
-        StructPagination,
+        coupons::{CreateCouponReq, UpdateCouponReq, UpdateCouponStatusReq},
+        Pagination,
     },
     utils::response::{response_list_t, response_t, ResponseT},
 };
@@ -61,7 +61,7 @@ use crate::{
 #[utoipa::path(
     post,
     path  = "/api/coupons",
-    request_body = StructCreateCouponReq,
+    request_body = CreateCouponReq,
     responses(
         (status = 200, description = "优惠券创建成功", body = ResponseT<Model>),
         (status = 500, description = "内部服务器错误")
@@ -70,7 +70,7 @@ use crate::{
 )]
 pub async fn create_coupon(
     db: web::Data<sea_orm::DatabaseConnection>,
-    coupon_data: web::Json<StructCreateCouponReq>,
+    coupon_data: web::Json<CreateCouponReq>,
 ) -> impl Responder {
     let now = Utc::now();
     let format_time = now.format("%Y-%m-%d %H:%M:%S").to_string();
@@ -129,7 +129,7 @@ pub async fn create_coupon(
 #[utoipa::path(
     put,
     path = "/api/coupons/{id}",
-    request_body = StructUpdateCouponReq,
+    request_body = UpdateCouponReq,
     responses(
         (status = 200, description = "优惠券更新成功", body = ResponseT<Model>),
         (status = 500, description = "内部服务器错误")
@@ -139,7 +139,7 @@ pub async fn create_coupon(
 pub async fn update_coupon(
     db: web::Data<sea_orm::DatabaseConnection>,
     id: web::Path<i16>,
-    coupon_data: web::Json<StructUpdateCouponReq>,
+    coupon_data: web::Json<UpdateCouponReq>,
 ) -> impl Responder {
     let coupon_result = coupons::Entity::find_by_id(*id).one(db.get_ref()).await;
 
@@ -195,7 +195,7 @@ pub async fn update_coupon(
 #[utoipa::path(
     patch,
     path = "/api/coupons/{id}/update_status",
-    request_body = StructUpdateCouponStatusReq,
+    request_body = UpdateCouponStatusReq,
     responses(
         (status = 200, description = "优惠券更新成功", body = ResponseT<Model>),
         (status = 500, description = "内部服务器错误")
@@ -205,7 +205,7 @@ pub async fn update_coupon(
 pub async fn update_coupon_status(
     db: web::Data<sea_orm::DatabaseConnection>,
     id: web::Path<i16>,
-    coupon_data: web::Json<StructUpdateCouponStatusReq>,
+    coupon_data: web::Json<UpdateCouponStatusReq>,
 ) -> impl Responder {
     let coupon_result = coupons::Entity::find_by_id(*id).one(db.get_ref()).await;
 
@@ -273,7 +273,7 @@ pub async fn delete_coupon(
     get,
     path = "/api/coupons",
     params(
-        StructPagination
+        Pagination
     ),
     responses(
         (status = 200, description = "角色列表获取成功", body = ResponseT<Model>),
@@ -283,7 +283,7 @@ pub async fn delete_coupon(
 )]
 pub async fn get_coupon_list(
     db: web::Data<sea_orm::DatabaseConnection>,
-    query: web::Query<StructPagination>,
+    query: web::Query<Pagination>,
 ) -> impl Responder {
     let page = query.page;
     let size = query.size;

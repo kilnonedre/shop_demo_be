@@ -7,7 +7,7 @@ use utoipa::ToSchema;
     "content": "测试内容",
 }))]
 
-pub struct StructCreateNotice {
+pub struct CreateNotice {
     pub title: String,
     pub content: String,
 }

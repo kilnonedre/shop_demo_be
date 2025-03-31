@@ -9,10 +9,8 @@ use sea_orm::{
 use crate::{
     entities::skus::{self, ActiveModel, Model},
     models::{
-        skus::{
-            StructCreateSkuReq, StructDeleteSkuAllReq, StructUpdateSkuReq, StructUpdateSkuStatusReq,
-        },
-        StructPagination,
+        skus::{CreateSkuReq, DeleteSkuAllReq, UpdateSkuReq, UpdateSkuStatusReq},
+        Pagination,
     },
     utils::response::{response_list_t, response_t, ResponseT},
 };
@@ -49,7 +47,7 @@ use crate::{
 #[utoipa::path(
     post,
     path  = "/api/skus",
-    request_body = StructCreateSkuReq,
+    request_body = CreateSkuReq,
     responses(
         (status = 200, description = "规格创建成功", body = ResponseT<Model>),
         (status = 500, description = "内部服务器错误")
@@ -58,7 +56,7 @@ use crate::{
 )]
 pub async fn create_sku(
     db: web::Data<sea_orm::DatabaseConnection>,
-    sku_data: web::Json<StructCreateSkuReq>,
+    sku_data: web::Json<CreateSkuReq>,
 ) -> impl Responder {
     let now = Utc::now();
     let format_time = now.format("%Y-%m-%d %H:%M:%S").to_string();
@@ -104,7 +102,7 @@ pub async fn create_sku(
 #[utoipa::path(
     put,
     path = "/api/skus/{id}",
-    request_body = StructUpdateSkuReq,
+    request_body = UpdateSkuReq,
     responses(
         (status = 200, description = "规格更新成功", body = ResponseT<Model>),
         (status = 500, description = "内部服务器错误")
@@ -114,7 +112,7 @@ pub async fn create_sku(
 pub async fn update_sku(
     db: web::Data<sea_orm::DatabaseConnection>,
     id: web::Path<i16>,
-    sku_data: web::Json<StructUpdateSkuReq>,
+    sku_data: web::Json<UpdateSkuReq>,
 ) -> impl Responder {
     let sku_result = skus::Entity::find_by_id(*id).one(db.get_ref()).await;
 
@@ -163,7 +161,7 @@ pub async fn update_sku(
 #[utoipa::path(
     patch,
     path = "/api/skus/{id}/update_status",
-    request_body = StructUpdateSkuStatusReq,
+    request_body = UpdateSkuStatusReq,
     responses(
         (status = 200, description = "规格更新成功", body = ResponseT<Model>),
         (status = 500, description = "内部服务器错误")
@@ -173,7 +171,7 @@ pub async fn update_sku(
 pub async fn update_sku_status(
     db: web::Data<sea_orm::DatabaseConnection>,
     id: web::Path<i16>,
-    sku_data: web::Json<StructUpdateSkuStatusReq>,
+    sku_data: web::Json<UpdateSkuStatusReq>,
 ) -> impl Responder {
     let sku_result = skus::Entity::find_by_id(*id).one(db.get_ref()).await;
 
@@ -222,7 +220,7 @@ pub async fn update_sku_status(
 )]
 pub async fn delete_all_sku(
     db: web::Data<sea_orm::DatabaseConnection>,
-    sku_data: web::Json<StructDeleteSkuAllReq>,
+    sku_data: web::Json<DeleteSkuAllReq>,
 ) -> impl Responder {
     let result = skus::Entity::delete_many()
         .filter(skus::Column::Id.is_in(sku_data.ids.clone()))
@@ -245,7 +243,7 @@ pub async fn delete_all_sku(
     get,
     path = "/api/skus",
     params(
-        StructPagination
+        Pagination
     ),
     responses(
         (status = 200, description = "规格列表获取成功", body = ResponseT<Model>),
@@ -255,7 +253,7 @@ pub async fn delete_all_sku(
 )]
 pub async fn get_sku_list(
     db: web::Data<sea_orm::DatabaseConnection>,
-    query: web::Query<StructPagination>,
+    query: web::Query<Pagination>,
 ) -> impl Responder {
     let page = query.page;
     let size = query.size;

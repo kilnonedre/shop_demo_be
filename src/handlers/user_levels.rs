@@ -10,9 +10,9 @@ use crate::{
     entities::user_levels::{self, ActiveModel, Model},
     models::{
         user_levels::{
-            StructCreateUserLevelReq, StructUpdateUserLevelReq, StructUpdateUserLevelStatusReq,
+            CreateUserLevelReq, UpdateUserLevelReq, UpdateUserLevelStatusReq,
         },
-        StructPagination,
+        Pagination,
     },
     utils::response::{response_list_t, response_t, ResponseT},
 };
@@ -53,7 +53,7 @@ use crate::{
 #[utoipa::path(
     post,
     path  = "/api/user_levels",
-    request_body = StructCreateUserLevelReq,
+    request_body = CreateUserLevelReq,
     responses(
         (status = 200, description = "会员等级创建成功", body = ResponseT<Model>),
         (status = 500, description = "内部服务器错误")
@@ -62,7 +62,7 @@ use crate::{
 )]
 pub async fn create_user_level(
     db: web::Data<sea_orm::DatabaseConnection>,
-    user_level_data: web::Json<StructCreateUserLevelReq>,
+    user_level_data: web::Json<CreateUserLevelReq>,
 ) -> impl Responder {
     let now = Utc::now();
     let format_time = now.format("%Y-%m-%d %H:%M:%S").to_string();
@@ -113,7 +113,7 @@ pub async fn create_user_level(
 #[utoipa::path(
     put,
     path = "/api/user_levels/{id}",
-    request_body = StructUpdateUserLevelReq,
+    request_body = UpdateUserLevelReq,
     responses(
         (status = 200, description = "会员等级更新成功", body = ResponseT<Model>),
         (status = 500, description = "内部服务器错误")
@@ -123,7 +123,7 @@ pub async fn create_user_level(
 pub async fn update_user_level(
     db: web::Data<sea_orm::DatabaseConnection>,
     id: web::Path<i16>,
-    user_level_data: web::Json<StructUpdateUserLevelReq>,
+    user_level_data: web::Json<UpdateUserLevelReq>,
 ) -> impl Responder {
     let user_level_result = user_levels::Entity::find_by_id(*id).one(db.get_ref()).await;
 
@@ -174,7 +174,7 @@ pub async fn update_user_level(
 #[utoipa::path(
     patch,
     path = "/api/user_levels/{id}/update_status",
-    request_body = StructUpdateUserLevelStatusReq,
+    request_body = UpdateUserLevelStatusReq,
     responses(
         (status = 200, description = "优惠券更新成功", body = ResponseT<Model>),
         (status = 500, description = "内部服务器错误")
@@ -184,7 +184,7 @@ pub async fn update_user_level(
 pub async fn update_user_level_status(
     db: web::Data<sea_orm::DatabaseConnection>,
     id: web::Path<i16>,
-    user_level_data: web::Json<StructUpdateUserLevelStatusReq>,
+    user_level_data: web::Json<UpdateUserLevelStatusReq>,
 ) -> impl Responder {
     let user_level_result = user_levels::Entity::find_by_id(*id).one(db.get_ref()).await;
 
@@ -254,7 +254,7 @@ pub async fn delete_user_level(
     get,
     path = "/api/user_levels",
     params(
-        StructPagination
+        Pagination
     ),
     responses(
         (status = 200, description = "会员等级列表获取成功", body = ResponseT<Model>),
@@ -264,7 +264,7 @@ pub async fn delete_user_level(
 )]
 pub async fn get_user_level_list(
     db: web::Data<sea_orm::DatabaseConnection>,
-    query: web::Query<StructPagination>,
+    query: web::Query<Pagination>,
 ) -> impl Responder {
     let page = query.page;
     let size = query.size;

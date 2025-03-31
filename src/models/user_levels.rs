@@ -11,7 +11,7 @@ use utoipa::ToSchema;
     "max_time": 500,
 }))]
 
-pub struct StructCreateUserLevelReq {
+pub struct CreateUserLevelReq {
     pub name: String,
     pub level: i32,
     pub status: i32,
@@ -30,7 +30,7 @@ pub struct StructCreateUserLevelReq {
     "max_time": 500,
 }))]
 
-pub struct StructUpdateUserLevelReq {
+pub struct UpdateUserLevelReq {
     pub name: Option<String>,
     pub level: Option<i32>,
     pub status: Option<i32>,
@@ -44,6 +44,6 @@ pub struct StructUpdateUserLevelReq {
     "status": 1,
 }))]
 
-pub struct StructUpdateUserLevelStatusReq {
+pub struct UpdateUserLevelStatusReq {
     pub status: i32,
 }

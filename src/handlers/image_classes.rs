@@ -12,8 +12,8 @@ use crate::{
         images,
     },
     models::{
-        image_classes::{StructCreateImageClassReq, StructUpdateImageClassReq},
-        StructPagination,
+        image_classes::{CreateImageClassReq, UpdateImageClassReq},
+        Pagination,
     },
     utils::response::{response_list_t, response_t, ResponseT},
 };
@@ -47,7 +47,7 @@ use crate::{
 #[utoipa::path(
     post,
     path  = "/api/image_classes",
-    request_body = StructCreateImageClassReq,
+    request_body = CreateImageClassReq,
     responses(
         (status = 200, description = "图库创建成功", body = ResponseT<Model>),
         (status = 500, description = "内部服务器错误")
@@ -56,7 +56,7 @@ use crate::{
 )]
 pub async fn create_image_class(
     db: web::Data<sea_orm::DatabaseConnection>,
-    image_class_data: web::Json<StructCreateImageClassReq>,
+    image_class_data: web::Json<CreateImageClassReq>,
 ) -> impl Responder {
     let now = Utc::now();
     let format_time = now.format("%Y-%m-%d %H:%M:%S").to_string();
@@ -98,7 +98,7 @@ pub async fn create_image_class(
 #[utoipa::path(
     put,
     path = "/api/image_classes/{id}",
-    request_body = StructUpdateImageClassReq,
+    request_body = UpdateImageClassReq,
     responses(
         (status = 200, description = "图库更新成功", body = ResponseT<Model>),
         (status = 500, description = "内部服务器错误")
@@ -108,7 +108,7 @@ pub async fn create_image_class(
 pub async fn update_image_class(
     db: web::Data<sea_orm::DatabaseConnection>,
     id: web::Path<i16>,
-    image_class_data: web::Json<StructUpdateImageClassReq>,
+    image_class_data: web::Json<UpdateImageClassReq>,
 ) -> impl Responder {
     let image_class_result = image_classes::Entity::find_by_id(*id)
         .one(db.get_ref())
@@ -181,7 +181,7 @@ pub async fn delete_image_class(
     get,
     path = "/api/image_classes",
     params(
-        StructPagination
+        Pagination
     ),
     responses(
         (status = 200, description = "图库列表获取成功", body = ResponseT<Model>),
@@ -191,7 +191,7 @@ pub async fn delete_image_class(
 )]
 pub async fn get_image_class_list(
     db: web::Data<sea_orm::DatabaseConnection>,
-    query: web::Query<StructPagination>,
+    query: web::Query<Pagination>,
 ) -> impl Responder {
     let page = query.page;
     let size = query.size;
@@ -225,7 +225,7 @@ pub async fn get_image_class_list(
     get,
     path = "/api/image_classes/{id}/image",
     params(
-        StructPagination
+        Pagination
     ),
     responses(
         (status = 200, description = "图库下的图片列表获取成功", body = ResponseT<Model>),
@@ -236,7 +236,7 @@ pub async fn get_image_class_list(
 pub async fn get_image_list_by_image_class_id(
     db: web::Data<sea_orm::DatabaseConnection>,
     id: web::Path<i16>,
-    query: web::Query<StructPagination>,
+    query: web::Query<Pagination>,
 ) -> impl Responder {
     let page = query.page;
     let size = query.size;

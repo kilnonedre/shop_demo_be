@@ -9,7 +9,7 @@ use sea_orm::{
 use crate::{
     entities::users::{self, ActiveModel, Model},
     models::users::{
-        StructCreateUserReq, StructGetUserListReq, StructUpdateUserReq, StructUpdateUserStatusReq,
+        CreateUserReq, GetUserListReq, UpdateUserReq, UpdateUserStatusReq,
     },
     utils::response::{response_list_t, response_t, ResponseT},
 };
@@ -54,7 +54,7 @@ use crate::{
 #[utoipa::path(
     post,
     path  = "/api/users",
-    request_body = StructCreateUserReq,
+    request_body = CreateUserReq,
     responses(
         (status = 200, description = "角色创建成功", body = ResponseT<Model>),
         (status = 500, description = "内部服务器错误")
@@ -63,7 +63,7 @@ use crate::{
 )]
 pub async fn create_user(
     db: web::Data<sea_orm::DatabaseConnection>,
-    user_data: web::Json<StructCreateUserReq>,
+    user_data: web::Json<CreateUserReq>,
 ) -> impl Responder {
     let now = Utc::now();
     let format_time = now.format("%Y-%m-%d %H:%M:%S").to_string();
@@ -116,7 +116,7 @@ pub async fn create_user(
 #[utoipa::path(
     put,
     path = "/api/users/{id}",
-    request_body = StructUpdateUserReq,
+    request_body = UpdateUserReq,
     responses(
         (status = 200, description = "用户更新成功", body = ResponseT<Model>),
         (status = 500, description = "内部服务器错误")
@@ -126,7 +126,7 @@ pub async fn create_user(
 pub async fn update_user(
     db: web::Data<sea_orm::DatabaseConnection>,
     id: web::Path<i16>,
-    user_data: web::Json<StructUpdateUserReq>,
+    user_data: web::Json<UpdateUserReq>,
 ) -> impl Responder {
     let user_result = users::Entity::find_by_id(*id).one(db.get_ref()).await;
 
@@ -195,7 +195,7 @@ pub async fn update_user(
 #[utoipa::path(
     patch,
     path = "/api/users/{id}/update_status",
-    request_body = StructUpdateUserStatusReq,
+    request_body = UpdateUserStatusReq,
     responses(
         (status = 200, description = "角色更新成功", body = ResponseT<Model>),
         (status = 500, description = "内部服务器错误")
@@ -205,7 +205,7 @@ pub async fn update_user(
 pub async fn update_user_status(
     db: web::Data<sea_orm::DatabaseConnection>,
     id: web::Path<i16>,
-    user_data: web::Json<StructUpdateUserStatusReq>,
+    user_data: web::Json<UpdateUserStatusReq>,
 ) -> impl Responder {
     let role_result = users::Entity::find_by_id(*id).one(db.get_ref()).await;
 
@@ -273,7 +273,7 @@ pub async fn delete_user(
     get,
     path = "/api/users",
     params(
-        StructGetUserListReq
+        GetUserListReq
     ),
     responses(
         (status = 200, description = "角色列表获取成功", body = ResponseT<Model>),
@@ -283,7 +283,7 @@ pub async fn delete_user(
 )]
 pub async fn get_user_list(
     db: web::Data<sea_orm::DatabaseConnection>,
-    query: web::Query<StructGetUserListReq>,
+    query: web::Query<GetUserListReq>,
 ) -> impl Responder {
     let page = query.page;
     let size = query.size;

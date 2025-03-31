@@ -9,7 +9,7 @@ use utoipa::ToSchema;
     "default": "规格1,规格2",
 }))]
 
-pub struct StructCreateSkuReq {
+pub struct CreateSkuReq {
     pub name: String,
     pub status: i32,
     pub order: i32,
@@ -24,7 +24,7 @@ pub struct StructCreateSkuReq {
     "default": "规格1,规格2",
 }))]
 
-pub struct StructUpdateSkuReq {
+pub struct UpdateSkuReq {
     pub name: Option<String>,
     pub status: Option<i32>,
     pub order: Option<i32>,
@@ -36,7 +36,7 @@ pub struct StructUpdateSkuReq {
     "status": 1,
 }))]
 
-pub struct StructUpdateSkuStatusReq {
+pub struct UpdateSkuStatusReq {
     pub status: i32,
 }
 
@@ -45,6 +45,6 @@ pub struct StructUpdateSkuStatusReq {
     "ids": [1, 2],
 }))]
 
-pub struct StructDeleteSkuAllReq {
+pub struct DeleteSkuAllReq {
     pub ids: Vec<i32>,
 }

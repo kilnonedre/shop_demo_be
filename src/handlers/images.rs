@@ -9,7 +9,7 @@ use sea_orm::ActiveValue::{NotSet, Set};
 use sea_orm::{ActiveModelTrait, ColumnTrait, EntityTrait, QueryFilter};
 
 use crate::entities::images::{self, ActiveModel, Model};
-use crate::models::images::{StructDeleteImageAllReq, StructUpdateImageReq, StructUploadImageReq};
+use crate::models::images::{DeleteImageAllReq, UpdateImageReq, UploadImageReq};
 use crate::utils::response::{response_t, ResponseT};
 
 /// 上传图片
@@ -29,7 +29,7 @@ use crate::utils::response::{response_t, ResponseT};
 #[utoipa::path(
     post,
     path = "/api/images/upload",
-    request_body(content_type = "multipart/form-data", content = StructUploadImageReq, description = "File to upload"),
+    request_body(content_type = "multipart/form-data", content = UploadImageReq, description = "File to upload"),
     responses(
         (status = 200, description = "OK")
     ),
@@ -39,13 +39,13 @@ pub async fn upload_file(
     db: web::Data<sea_orm::DatabaseConnection>,
     mut multipart: Multipart,
 ) -> impl Responder {
-    let mut form_data: Option<StructUploadImageReq> = None;
+    let mut form_data: Option<UploadImageReq> = None;
 
     while let Some(mut field) = multipart.try_next().await.unwrap() {
         let name = field.name().unwrap();
 
         if form_data.is_none() {
-            form_data = Some(StructUploadImageReq {
+            form_data = Some(UploadImageReq {
                 image_class_id: -1,
                 img: String::new(),
             });
@@ -118,7 +118,7 @@ pub async fn upload_file(
 #[utoipa::path(
     delete,
     path = "/api/images/delete_all",
-    request_body = StructDeleteImageAllReq,
+    request_body = DeleteImageAllReq,
     responses(
         (status = 200, description = "图片删除成功", body = ResponseT<Model>),
         (status = 500, description = "内部服务器错误")
@@ -127,7 +127,7 @@ pub async fn upload_file(
 )]
 pub async fn delete_all_image(
     db: web::Data<sea_orm::DatabaseConnection>,
-    image_data: web::Json<StructDeleteImageAllReq>,
+    image_data: web::Json<DeleteImageAllReq>,
 ) -> impl Responder {
     let result = images::Entity::delete_many()
         .filter(images::Column::Id.is_in(image_data.ids.clone()))
@@ -162,7 +162,7 @@ pub async fn delete_all_image(
 #[utoipa::path(
     put,
     path = "/api/images/{id}",
-    request_body = StructUpdateImageReq,
+    request_body = UpdateImageReq,
     responses(
         (status = 200, description = "图片更新成功", body = ResponseT<Model>),
         (status = 500, description = "内部服务器错误")
@@ -172,7 +172,7 @@ pub async fn delete_all_image(
 pub async fn update_image(
     db: web::Data<sea_orm::DatabaseConnection>,
     id: web::Path<i16>,
-    image_data: web::Json<StructUpdateImageReq>,
+    image_data: web::Json<UpdateImageReq>,
 ) -> impl Responder {
     let image_result = images::Entity::find_by_id(*id).one(db.get_ref()).await;
 

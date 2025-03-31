@@ -3,7 +3,7 @@ use utoipa::ToSchema;
 
 #[derive(Debug, Deserialize, ToSchema, Clone, Serialize)]
 
-pub struct StructRule {
+pub struct Rule {
     pub id: i32,
     pub name: String,
     pub rule_id: i32,
@@ -16,7 +16,7 @@ pub struct StructRule {
     pub order: i32,
     pub icon: String,
     pub method: String,
-    pub child: Vec<StructRule>,
+    pub child: Vec<Rule>,
 }
 
 #[derive(Debug, Deserialize, ToSchema)]
@@ -32,7 +32,7 @@ pub struct StructRule {
     "method": "GET",
 }))]
 
-pub struct StructCreateRuleReq {
+pub struct CreateRuleReq {
     pub name: String,
     pub rule_id: i32,
     pub status: i32,
@@ -57,7 +57,7 @@ pub struct StructCreateRuleReq {
     "method": "GET",
 }))]
 
-pub struct StructUpdateRuleReq {
+pub struct UpdateRuleReq {
     pub name: Option<String>,
     pub rule_id: Option<i32>,
     pub status: Option<i32>,
@@ -74,6 +74,6 @@ pub struct StructUpdateRuleReq {
     "status": 1,
 }))]
 
-pub struct StructUpdateRuleStatusReq {
+pub struct UpdateRuleStatusReq {
     pub status: i32,
 }

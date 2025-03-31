@@ -10,7 +10,7 @@ use utils::{build_rule_tree, insert_rule_with_child};
 use crate::{
     entities::rules::{self, ActiveModel, Model},
     models::rules::{
-        StructCreateRuleReq, StructRule, StructUpdateRuleReq, StructUpdateRuleStatusReq,
+        CreateRuleReq, Rule, UpdateRuleReq, UpdateRuleStatusReq,
     },
     utils::{
         json::read_json_from_file,
@@ -51,7 +51,7 @@ mod utils;
     tag = "rules"
 )]
 pub async fn init_rule(db: web::Data<sea_orm::DatabaseConnection>) -> impl Responder {
-    let result = read_json_from_file::<Vec<StructRule>>("./src/assets/rule.json");
+    let result = read_json_from_file::<Vec<Rule>>("./src/assets/rule.json");
     match result {
         Ok(rules) => {
             insert_rule_with_child(&db, rules).await;
@@ -97,7 +97,7 @@ pub async fn init_rule(db: web::Data<sea_orm::DatabaseConnection>) -> impl Respo
 #[utoipa::path(
     post,
     path  = "/api/rules",
-    request_body = StructCreateRuleReq,
+    request_body = CreateRuleReq,
     responses(
         (status = 200, description = "Rule created successfully", body = ResponseT<Model>),
         (status = 500, description = "Internal server error")
@@ -106,7 +106,7 @@ pub async fn init_rule(db: web::Data<sea_orm::DatabaseConnection>) -> impl Respo
 )]
 pub async fn create_rule(
     db: web::Data<sea_orm::DatabaseConnection>,
-    rule_data: web::Json<StructCreateRuleReq>,
+    rule_data: web::Json<CreateRuleReq>,
 ) -> impl Responder {
     let now = Utc::now();
     let format_time = now.format("%Y-%m-%d %H:%M:%S").to_string();
@@ -161,7 +161,7 @@ pub async fn create_rule(
 #[utoipa::path(
     put,
     path = "/api/rules/{id}",
-    request_body = StructUpdateRuleReq,
+    request_body = UpdateRuleReq,
     responses(
         (status = 200, description = "公告更新成功", body = ResponseT<Model>),
         (status = 500, description = "内部服务器错误")
@@ -171,7 +171,7 @@ pub async fn create_rule(
 pub async fn update_rule(
     db: web::Data<sea_orm::DatabaseConnection>,
     id: web::Path<i16>,
-    rule_data: web::Json<StructUpdateRuleReq>,
+    rule_data: web::Json<UpdateRuleReq>,
 ) -> impl Responder {
     let rule_result = rules::Entity::find_by_id(*id).one(db.get_ref()).await;
 
@@ -225,7 +225,7 @@ pub async fn update_rule(
 #[utoipa::path(
     patch,
     path = "/api/rules/{id}/update_status",
-    request_body = StructUpdateRuleStatusReq,
+    request_body = UpdateRuleStatusReq,
     responses(
         (status = 200, description = "规则状态更新成功", body = ResponseT<Model>),
         (status = 500, description = "内部服务器错误")
@@ -235,7 +235,7 @@ pub async fn update_rule(
 pub async fn update_rule_status(
     db: web::Data<sea_orm::DatabaseConnection>,
     id: web::Path<i16>,
-    rule_data: web::Json<StructUpdateRuleStatusReq>,
+    rule_data: web::Json<UpdateRuleStatusReq>,
 ) -> impl Responder {
     let rule_result = rules::Entity::find_by_id(*id).one(db.get_ref()).await;
 

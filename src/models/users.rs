@@ -13,7 +13,7 @@ use utoipa::{IntoParams, ToSchema};
     "avatar": null,
 }))]
 
-pub struct StructCreateUserReq {
+pub struct CreateUserReq {
     pub username: String,
     pub password: String,
     pub status: i32,
@@ -36,7 +36,7 @@ pub struct StructCreateUserReq {
     "avatar": null,
 }))]
 
-pub struct StructUpdateUserReq {
+pub struct UpdateUserReq {
     pub username: Option<String>,
     pub password: Option<String>,
     pub status: Option<i32>,
@@ -52,12 +52,12 @@ pub struct StructUpdateUserReq {
     "status": 1,
 }))]
 
-pub struct StructUpdateUserStatusReq {
+pub struct UpdateUserStatusReq {
     pub status: i32,
 }
 
 #[derive(Debug, Deserialize, ToSchema, IntoParams)]
-pub struct StructGetUserListReq {
+pub struct GetUserListReq {
     #[param(style = Form, allow_reserved, example = 1)]
     pub page: u64,
     #[param(style = Form, allow_reserved, example = 10)]

@@ -2,7 +2,7 @@ use serde::{Deserialize, Serialize};
 use utoipa::ToSchema;
 
 #[derive(Debug, Serialize, Deserialize, Clone, ToSchema)]
-pub struct StructUploadImageReq {
+pub struct UploadImageReq {
     #[schema(value_type = String, format = Binary)]
     pub img: String,
     #[serde(rename = "imageClassId")]
@@ -13,7 +13,7 @@ pub struct StructUploadImageReq {
 #[schema(example  = json!({
     "ids": [1, 2, 3],
 }))]
-pub struct StructDeleteImageAllReq {
+pub struct DeleteImageAllReq {
     pub ids: Vec<i32>,
 }
 
@@ -22,6 +22,6 @@ pub struct StructDeleteImageAllReq {
     "name": "测试角色名称",
 }))]
 
-pub struct StructUpdateImageReq {
+pub struct UpdateImageReq {
     pub name: Option<String>,
 }

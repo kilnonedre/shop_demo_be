@@ -7,7 +7,7 @@ use utoipa::ToSchema;
     "order": 50,
 }))]
 
-pub struct StructCreateImageClassReq {
+pub struct CreateImageClassReq {
     pub name: String,
     pub order: i32,
 }
@@ -18,7 +18,7 @@ pub struct StructCreateImageClassReq {
     "order": 50,
 }))]
 
-pub struct StructUpdateImageClassReq {
+pub struct UpdateImageClassReq {
     pub name: Option<String>,
     pub order: Option<i32>,
 }

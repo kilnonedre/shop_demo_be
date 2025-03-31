@@ -8,7 +8,7 @@ use utoipa::ToSchema;
     "status": 1,
 }))]
 
-pub struct StructCreateRoleReq {
+pub struct CreateRoleReq {
     pub name: String,
     pub desc: String,
     pub status: i32,
@@ -21,7 +21,7 @@ pub struct StructCreateRoleReq {
     "status": 1,
 }))]
 
-pub struct StructUpdateRoleReq {
+pub struct UpdateRoleReq {
     pub name: Option<String>,
     pub desc: Option<String>,
     pub status: Option<i32>,
@@ -32,7 +32,7 @@ pub struct StructUpdateRoleReq {
     "status": 1,
 }))]
 
-pub struct StructUpdateRoleStatusReq {
+pub struct UpdateRoleStatusReq {
     pub status: i32,
 }
 
@@ -41,6 +41,6 @@ pub struct StructUpdateRoleStatusReq {
     "rule_ids": [ 5, 10, 174, 175, 176 ],
 }))]
 
-pub struct StructUpdateRoleRuleIdsReq {
+pub struct UpdateRoleRuleIdsReq {
     pub rule_ids: Vec<i32>,
 }
