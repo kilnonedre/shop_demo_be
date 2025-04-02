@@ -1,5 +1,5 @@
 use migrations::{
-    admins, coupons, image_classes, images, notices, roles, rules, skus, user_levels, users,
+    admins, coupons, goods, image_classes, images, notices, roles, rules, skus, user_levels, users,
 };
 pub use sea_orm_migration::prelude::*;
 
@@ -21,6 +21,7 @@ impl MigratorTrait for Migrator {
             Box::new(user_levels::Migration),
             Box::new(images::Migration),
             Box::new(image_classes::Migration),
+            Box::new(goods::Migration),
         ]
     }
 }

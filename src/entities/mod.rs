@@ -4,6 +4,7 @@ pub mod prelude;
 
 pub mod admins;
 pub mod coupons;
+pub mod goods;
 pub mod image_classes;
 pub mod images;
 pub mod notices;
